@@ -1,0 +1,68 @@
+declaraciones{
+	int f1; (0)
+	int f2; (1)
+	int f3; (2)
+	bool p1; (3)
+	bool p2; (4)
+	bool p3  (5)
+}
+instrucciones {
+	read f1;
+	read f2;
+	f3 = (f1 + f2) / (f1*f2);
+	p1 = (f1 mod 2) == 0;
+	p2 = p1 and ((f2 mod 2) == 0);
+	p3 = p2 and ((f2 mod 2) <> 0);
+	write f3;
+	write p1 and p2 or p3
+}
+
+LEE
+DESAPILA_DIR(0)
+
+LEE
+DESAPILA_DIR(1)
+
+APILA_DIR(0)
+APILA_DIR(1)
+SUMA
+APILA_DIR(0)
+APILA_DIR(1)
+MUL
+DIV
+DESAPILA_DIR(2)
+
+APILA_DIR(0)
+APILA(2)
+MOD
+APILA(0)
+IGUAL
+DESAPILA_DIR(3)
+
+APILA_DIR(3)
+APILA_DIR(1)
+APILA(2)
+MOD
+APILA(0)
+IGUAL
+Y
+DESAPILA_DIR(4)
+
+APILA_DIR(4)
+APILA_DIR(1)
+APILA(2)
+MOD
+APILA(0)
+DISTINTO
+Y
+DESAPILA_DIR(5)
+
+APILA_DIR(2)
+ESCRIBE
+
+APILA_DIR(3)
+APILA_DIR(4)
+Y
+APILA_DIR(5)
+O
+ESCRIBE
