@@ -1,4 +1,4 @@
-package instrucciones.salto;
+package instrucciones.memoria;
 
 import java.util.Stack;
 
@@ -9,29 +9,25 @@ import valores.Entero;
 import valores.Valor;
 import instrucciones.Instruccion;
 
-public class IrF implements Instruccion {
+public class Apila_Ind implements Instruccion {
 
-	protected Entero pd;
-	
-	public IrF(Entero pd) {
-		this.pd = pd;
+	public Apila_Ind() {
+
 	}
 
 	@Override
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp)
 			throws Exception {
 		if (st.size() == 0)
-			throw new Exception("IR_F: pila vacia");
+			throw new Exception("APILA_IND: pila vacia");
 		
 		Valor op = st.pop();
-		if (op instanceof Booleano) {
-			if (! (boolean) op.getValor())
-				cp.set((int) pd.getValor());
-			else
-				cp.incr();
+		if (op instanceof Entero) {
+			st.push(md.get((int) op.getValor()));
+			cp.incr();
 		}
 		else
-			throw new Exception("IR_F: operando no booleano");
+			throw new Exception("APILA_IND: operando no entero (direccion)");
 	}
 
 }

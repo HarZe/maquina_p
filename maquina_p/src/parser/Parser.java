@@ -19,7 +19,12 @@ import instrucciones.logicas.No;
 import instrucciones.logicas.O;
 import instrucciones.logicas.Y;
 import instrucciones.memoria.Apila_Dir;
+import instrucciones.memoria.Apila_Ind;
+import instrucciones.memoria.Clonar;
 import instrucciones.memoria.Desapila_Dir;
+import instrucciones.memoria.Desapila_Ind;
+import instrucciones.memoria.Libera;
+import instrucciones.memoria.Reserva;
 import instrucciones.pila.Apila;
 import instrucciones.salto.IrA;
 import instrucciones.salto.IrF;
@@ -101,6 +106,42 @@ public class Parser {
 					else
 						throw new Exception("Parser: salto incorrecto");
 				}
+				
+				else if (linea.startsWith("RESERVA(")) {
+					String var = linea.substring("RESERVA(".length());
+					var = var.substring(0, var.length() - 1);
+					Valor v = valorDeString(var);
+					if (v instanceof Entero)
+						inst.add(new Reserva((Entero) v));
+					else
+						throw new Exception("Parser: salto incorrecto");
+				}
+				
+				else if (linea.startsWith("LIBERA(")) {
+					String var = linea.substring("RESERVA(".length());
+					var = var.substring(0, var.length() - 1);
+					Valor v = valorDeString(var);
+					if (v instanceof Entero)
+						inst.add(new Libera((Entero) v));
+					else
+						throw new Exception("Parser: salto incorrecto");
+				}
+				
+				else if (linea.startsWith("CLONAR(")) {
+					String var = linea.substring("CLONAR(".length());
+					var = var.substring(0, var.length() - 1);
+					Valor v = valorDeString(var);
+					if (v instanceof Entero)
+						inst.add(new Clonar((Entero) v));
+					else
+						throw new Exception("Parser: salto incorrecto");
+				}
+				
+				else if (linea.equalsIgnoreCase("APILA_IND"))
+					inst.add(new Apila_Ind());
+				
+				else if (linea.equalsIgnoreCase("DESAPILA_IND"))
+					inst.add(new Desapila_Ind());
 				
 				else if (linea.equalsIgnoreCase("LEE"))
 					inst.add(new Lee());
