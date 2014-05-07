@@ -1,0 +1,34 @@
+declaraciones {
+int peso
+}
+instrucciones {
+read peso;
+if peso <= 100 then
+peso = peso+5
+else
+peso = peso+10
+write peso;
+}
+
+LEE
+DESAPILA_DIR(0)
+
+APILA_DIR(0)
+APILA(100)
+MENOROIGUAL
+IR_F(11)
+
+APILA_DIR(0)
+APILA(5)
+SUMA
+DESAPILA_DIR(0)
+
+IR_A(15)
+
+APILA_DIR(0)
+APILA(10)
+SUMA
+DESAPILA_DIR(0)
+
+APILA_DIR(0)
+ESCRIBE

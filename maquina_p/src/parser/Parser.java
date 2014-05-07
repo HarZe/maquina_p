@@ -21,6 +21,9 @@ import instrucciones.logicas.Y;
 import instrucciones.memoria.Apila_Dir;
 import instrucciones.memoria.Desapila_Dir;
 import instrucciones.pila.Apila;
+import instrucciones.salto.IrA;
+import instrucciones.salto.IrF;
+import instrucciones.salto.IrV;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -67,6 +70,36 @@ public class Parser {
 						inst.add(new Desapila_Dir((Entero) v));
 					else
 						throw new Exception("Parser: direccion incorrecta");
+				}
+				
+				else if (linea.startsWith("IR_A(")) {
+					String var = linea.substring("IR_A(".length());
+					var = var.substring(0, var.length() - 1);
+					Valor v = valorDeString(var);
+					if (v instanceof Entero)
+						inst.add(new IrA((Entero) v));
+					else
+						throw new Exception("Parser: salto incorrecto");
+				}
+				
+				else if (linea.startsWith("IR_V(")) {
+					String var = linea.substring("IR_V(".length());
+					var = var.substring(0, var.length() - 1);
+					Valor v = valorDeString(var);
+					if (v instanceof Entero)
+						inst.add(new IrV((Entero) v));
+					else
+						throw new Exception("Parser: salto incorrecto");
+				}
+				
+				else if (linea.startsWith("IR_F(")) {
+					String var = linea.substring("IR_F(".length());
+					var = var.substring(0, var.length() - 1);
+					Valor v = valorDeString(var);
+					if (v instanceof Entero)
+						inst.add(new IrF((Entero) v));
+					else
+						throw new Exception("Parser: salto incorrecto");
 				}
 				
 				else if (linea.equalsIgnoreCase("LEE"))

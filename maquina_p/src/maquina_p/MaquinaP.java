@@ -26,6 +26,7 @@ public class MaquinaP {
 		try {
 			while (cp.get() < mp.size()) {
 				mp.get(cp.get()).ejecutar(pila, md, cp);
+				//System.out.println("DEBUG: cp=" + cp.get() + ", tam. de pila=" + pila.size());
 			}
 		}
 		catch (Exception e) {
