@@ -36,7 +36,7 @@ public class MemoriaDatos {
 		
 		if (izda.tam == 0)
 			huecos.remove(izda);
-		if (dcha.tam > 0)
+		if (dcha != null && dcha.tam > 0)
 			huecos.add(dcha);
 		
 		memoria[p] = v;
@@ -123,7 +123,7 @@ public class MemoriaDatos {
 	
 	public void clonar(int origen, int destino, int tam) throws Exception {
 		if (Math.abs(destino - origen) < tam)
-			throw new Exception("CLONA: las zona de memoria se solapan");
+			throw new Exception("CLONA: las zonas de memoria se solapan");
 		
 		for (int i = 0; i < tam; i++)
 			memoria[destino + i] = memoria[origen + i];
@@ -206,6 +206,23 @@ public class MemoriaDatos {
 	    @Override
 	    public int size() {
 	        return list.size();
+	    }
+	    
+	    @Override
+	    public int indexOf(Object o) {
+	    	return list.lastIndexOf(o);
+	    }
+	    
+	    @Override
+	    public E remove(int i) {
+	    	return list.remove(i);
+	    }
+	    
+	    @Override
+	    public boolean remove(Object o) {
+	    	if (remove(indexOf(o)) != null)
+	    		return true;
+	    	return false;
 	    }
 
 	}
