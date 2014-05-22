@@ -26,6 +26,7 @@ import instrucciones.memoria.Desapila_Ind;
 import instrucciones.memoria.Libera;
 import instrucciones.memoria.Reserva;
 import instrucciones.pila.Apila;
+import instrucciones.pila.Dup;
 import instrucciones.salto.IrA;
 import instrucciones.salto.IrF;
 import instrucciones.salto.IrV;
@@ -50,6 +51,8 @@ public class Parser {
 			
 			while (sc.hasNext()) {
 				String linea = sc.nextLine();
+				
+				//linea.toUpperCase();
 				
 				if (linea.startsWith("APILA(")) {
 					String var = linea.substring("APILA(".length());
@@ -193,6 +196,12 @@ public class Parser {
 				
 				else if (linea.equalsIgnoreCase("MAYOROIGUAL"))
 					inst.add(new MayorOIgual());
+				
+				else if (linea.equalsIgnoreCase("DUP"))
+					inst.add(new Dup());
+				
+				else if (!linea.startsWith("//"))
+					System.err.println("Cannot parse: " + linea);
 			}
 			
 		} catch (FileNotFoundException e) {
