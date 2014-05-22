@@ -289,7 +289,7 @@ apila_dir(1)
 apila(1)
 suma
 apila_ind
-not
+no
 ir_f(271)
 
 // Prellamada GuardaValor(arbol)
@@ -316,7 +316,7 @@ apila_dir(1)
 apila(1)
 suma
 apila_ind
-not
+no
 ir_v(231)
 
 // Epílogo
@@ -360,7 +360,7 @@ suma
 apila_ind
 apila(0)
 distinto
-and
+y
 ir_f(386)
 
 // Prellamada AlmacenaEnSecuencia(arbol->.izq)
@@ -376,7 +376,7 @@ suma
 apila_ind
 apila(1)
 suma
-clona(1)
+clonar(1)
 apila_dir(0)
 apila(1)
 suma
@@ -432,7 +432,7 @@ suma
 apila_ind
 apila(2)
 suma
-clona(1)
+clonar(1)
 apila_dir(0)
 apila(1)
 suma
@@ -486,7 +486,7 @@ suma
 apila_dir(1)
 apila(0)
 suma
-clona(1)
+clonar(1)
 apila_dir(0)
 apila(1)
 suma
@@ -562,7 +562,7 @@ suma
 apila_ind
 apila(1)
 suma
-clona(1)
+clonar(1)
 apila_dir(0)
 apila(1)
 suma
@@ -583,7 +583,7 @@ suma
 apila_ind
 apila(2)
 suma
-clona(1)
+clonar(1)
 apila_dir(0)
 apila(1)
 suma
@@ -638,7 +638,7 @@ apila_dir(1)
 apila(0)
 suma
 apila_ind
-clona(1)
+clonar(1)
 apila_dir(0)
 apila(1)
 suma
@@ -705,7 +705,7 @@ apila_dir(1)
 apila(11)
 suma
 apila_ind
-not
+no
 ir_f(669)
 
 apila_dir(1)
@@ -745,7 +745,7 @@ apila_dir(1)
 apila(11)
 suma
 apila_ind
-not
+no
 ir_f(668)
 
 apila_dir(1)
@@ -809,7 +809,7 @@ dup
 apila(0)
 suma
 apila(14)
-clona(1)
+clonar(1)
 apila_dir(0)
 apila(1)
 suma
@@ -841,7 +841,7 @@ dup
 apila(0)
 suma
 apila(4)
-clona(10)
+clonar(10)
 apila_dir(0)
 apila(1)
 suma

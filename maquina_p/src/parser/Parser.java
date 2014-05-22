@@ -52,7 +52,7 @@ public class Parser {
 			while (sc.hasNext()) {
 				String linea = sc.nextLine();
 				
-				//linea.toUpperCase();
+				linea = linea.toUpperCase();
 				
 				if (linea.startsWith("APILA(")) {
 					String var = linea.substring("APILA(".length());
@@ -121,7 +121,7 @@ public class Parser {
 				}
 				
 				else if (linea.startsWith("LIBERA(")) {
-					String var = linea.substring("RESERVA(".length());
+					String var = linea.substring("LIBERA(".length());
 					var = var.substring(0, var.length() - 1);
 					Valor v = valorDeString(var);
 					if (v instanceof Entero)
@@ -200,8 +200,11 @@ public class Parser {
 				else if (linea.equalsIgnoreCase("DUP"))
 					inst.add(new Dup());
 				
-				else if (!linea.startsWith("//"))
-					System.err.println("Cannot parse: " + linea);
+				else if (linea.equalsIgnoreCase("IR_IND"))
+					inst.add(new Dup());
+				
+				/*else if (!linea.startsWith("//") || linea.length() != 0)
+					System.err.println("Cannot parse: " + linea);*/
 			}
 			
 		} catch (FileNotFoundException e) {
