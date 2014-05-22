@@ -43,13 +43,13 @@ public class MemoriaDatos {
 	}
 	
 	public String toString() {
-		String s = "MP:";
+		String s = "";
 		
-		for (Valor v : memoria)
+		for (int i = 0; i < elems; i++) {
+			Valor v = memoria[i];
 			if (v != null)
-				s += " " + v.toString();
-			else
-				s += " 0";
+				s += i + ": " + v.toString() + "\n";
+		}
 		
 		return s;
 	}

@@ -22,7 +22,7 @@ public class Apila_Dir implements Instruccion {
 		Valor v = md.get((int) dir.getValor());
 		
 		if (v == null)
-			throw new Exception("APILA_DIR: valor invalido de memoria");
+			throw new Exception("APILA_DIR: valor invalido de memoria, dir: " + dir.getValor());
 		
 		st.push(v);
 		cp.incr();
