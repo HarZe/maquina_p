@@ -21,8 +21,11 @@ public class Apila_Dir implements Instruccion {
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp) throws Exception {
 		Valor v = md.get((int) dir.getValor());
 		
-		if (v == null)
-			throw new Exception("APILA_DIR: valor invalido de memoria, dir: " + dir.getValor());
+		if (v == null) {
+			//throw new Exception("APILA_DIR: valor invalido de memoria, dir: " + dir.getValor());
+			System.err.println("APILA_DIR: valor invalido de memoria, dir: " + dir.getValor());
+			v = new Entero(0);
+		}
 		
 		st.push(v);
 		cp.incr();

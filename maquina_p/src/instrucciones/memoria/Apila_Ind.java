@@ -1,13 +1,13 @@
 package instrucciones.memoria;
 
+import instrucciones.Instruccion;
+
 import java.util.Stack;
 
 import maquina_p.MaquinaP.Cp;
 import maquina_p.MemoriaDatos;
-import valores.Booleano;
 import valores.Entero;
 import valores.Valor;
-import instrucciones.Instruccion;
 
 public class Apila_Ind implements Instruccion {
 
@@ -23,7 +23,15 @@ public class Apila_Ind implements Instruccion {
 		
 		Valor op = st.pop();
 		if (op instanceof Entero) {
-			st.push(md.get((int) op.getValor()));
+			Valor v = md.get((int) op.getValor());
+			
+			if (v == null) {
+				//throw new Exception("APILA_IND: valor invalido de memoria, dir: " + dir.getValor());
+				System.err.println("APILA_IND: valor invalido de memoria, dir: " + op.getValor());
+				v = new Entero(0);
+			}
+			
+			st.push(v);
 			cp.incr();
 		}
 		else

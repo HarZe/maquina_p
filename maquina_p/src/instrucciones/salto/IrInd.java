@@ -25,7 +25,7 @@ public class IrInd implements Instruccion {
 		if (op instanceof Entero)
 			cp.set((int) op.getValor());
 		else
-			throw new Exception("IR_F: operando no entero");
+			throw new Exception("IR_IND: operando no entero");
 	}
 
 }

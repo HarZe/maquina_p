@@ -16,7 +16,7 @@ public class MaquinaP {
 	protected Cp cp;
 	
 	public MaquinaP(ArrayList<Instruccion> programa) {
-		this.md = new MemoriaDatos();
+		this.md = new MemoriaDatos(65535);
 		this.mp = programa;
 		this.pila = new Stack<Valor>();
 		cp = new Cp();

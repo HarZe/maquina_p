@@ -29,6 +29,7 @@ import instrucciones.pila.Apila;
 import instrucciones.pila.Dup;
 import instrucciones.salto.IrA;
 import instrucciones.salto.IrF;
+import instrucciones.salto.IrInd;
 import instrucciones.salto.IrV;
 
 import java.io.File;
@@ -201,7 +202,7 @@ public class Parser {
 					inst.add(new Dup());
 				
 				else if (linea.equalsIgnoreCase("IR_IND"))
-					inst.add(new Dup());
+					inst.add(new IrInd());
 				
 				/*else if (!linea.startsWith("//") || linea.length() != 0)
 					System.err.println("Cannot parse: " + linea);*/

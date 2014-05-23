@@ -10,17 +10,16 @@ public class MemoriaDatos {
 
 	protected Valor[] memoria;
 	protected int elems;
-	protected static int INICIAL = 32;
 	
 	protected SortedList<Hueco> huecos;
 	
-	public MemoriaDatos() {
-		memoria = new Valor[INICIAL];
-		elems = INICIAL;
-		for (int i = 0; i < INICIAL; i++)
+	public MemoriaDatos(int heap) {
+		elems = 2*heap;
+		memoria = new Valor[elems];
+		for (int i = 0; i < elems; i++)
 			memoria[i] = null;
 		huecos = new SortedList<Hueco>();
-		huecos.add(new Hueco(0, elems));
+		huecos.add(new Hueco(heap, heap));
 	}
 	
 	public Valor get(int p) {
