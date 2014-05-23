@@ -30,7 +30,7 @@ public class Clonar implements Instruccion {
 			cp.incr();
 		}
 		else
-			throw new Exception("LIBERA: direcciones invalidas");
+			throw new Exception("CLONAR: direccion invalida");
 	}
 
 }

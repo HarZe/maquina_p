@@ -22,7 +22,6 @@ public class Division implements Instruccion {
 		if (op1 instanceof Entero && op2 instanceof Entero) {
 			st.push(new Entero(((int) op2.getValor()) / ((int) op1.getValor())));
 			cp.incr();
-			//System.out.println(op1.toString() + " " + op2.toString() + " " + ((int) op2.getValor()) / ((int) op1.getValor()));
 		}
 		else
 			throw new Exception("DIV: operandos no enteros");

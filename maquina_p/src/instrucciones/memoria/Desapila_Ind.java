@@ -28,7 +28,7 @@ public class Desapila_Ind implements Instruccion {
 			cp.incr();
 		}
 		else
-			throw new Exception("APILA_IND: direccion no valida");
+			throw new Exception("DESAPILA_IND: direccion no valida");
 	}
 
 }

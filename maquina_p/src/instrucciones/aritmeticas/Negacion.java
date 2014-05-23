@@ -15,7 +15,7 @@ public class Negacion implements Instruccion {
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp)
 			throws Exception {
 		if (st.size() == 0)
-			throw new Exception("NEG: pila vac�a");
+			throw new Exception("NEG: pila vacia");
 		
 		Valor op = st.pop();
 		if (op instanceof Entero) {

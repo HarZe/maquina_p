@@ -15,7 +15,7 @@ public class No implements Instruccion {
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp)
 			throws Exception {
 		if (st.size() == 0)
-			throw new Exception("NO: pila vac�a");
+			throw new Exception("NO: pila vacia");
 		
 		Valor op = st.pop();
 		if (op instanceof Booleano) {
