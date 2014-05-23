@@ -11,115 +11,110 @@ import java.util.List;
 import valores.Entero;
 import valores.Valor;
 
-public class MemoriaDatos extends HashMap<Integer, Valor>{
+public class MemoriaDatos extends HashMap<Integer, Valor> {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3932189872155024135L;
-	
+
 	private final Comparator<Hueco> comparator = new Comparator<Hueco>() {
 		@Override
 		public int compare(Hueco e1, Hueco e2) {
 			return e1.compareTo(e2);
 		}
 	};
-	
+
 	private static final int INICIO = 1024;
 	private static final int TAM = 2048;
-	
+
 	public List<Hueco> lista = new LinkedList<Hueco>();
-	
-	public MemoriaDatos(){
+
+	public MemoriaDatos() {
 		super();
 		lista.add(new Hueco(INICIO, TAM, true));
 	}
 
-	public void clonar(int destino, int origen, int tamaño){
-		int len=tamaño+destino;
-		while (destino<len){
-			Valor v = this.get(destino);
-			if(v == null){
+	public void clonar(int dest, int ori, int tam) {
+		for (int i = ori; i < ori + tam; i++) {
+			Valor v = this.get(dest);
+			if (v == null) {
 				v = new Entero(0);
 			}
-			this.put(origen, v);
-			destino++;
-			origen++;
+			this.put(i, v);
+			dest++;
 		}
 	}
-	
-	public void libera(int posicion, int tamaño){
-		int dirPilaTmp = posicion;
+
+	public void libera(int pos, int tamaño) {
+		int dirTmp = pos;
 		int cantidadTmp = tamaño;
 		Collections.sort(this.lista, comparator);
 
 		for (Hueco espacio : this.lista) {
-			if (espacio.estaEnEsteEspacioDeDirecciones(dirPilaTmp)) {
-				if (espacio.superaElTamanio(dirPilaTmp, cantidadTmp)) {
-					if (espacio.getDir_com() < dirPilaTmp) {
-						// Hay que dividir en dos partes
+			if (espacio.start_dir <= dirTmp && espacio.start_dir + espacio.tam >= dirTmp) {
+				if (dirTmp + espacio.tam < dirTmp + cantidadTmp) {
+					if (espacio.getStart_dir() < dirTmp) {
 
-						int tam = dirPilaTmp - espacio.getDir_com();
-						this.lista.add(new Hueco(espacio.getDir_com(), tam, espacio
-								.isLibre()));
-
-						int tam2 = (espacio.getDir_com() + espacio.getTam())
-								- dirPilaTmp;
+						int tam = dirTmp - espacio.getStart_dir();
+						int tam2 = (espacio.getStart_dir() + espacio.getTam())
+								- dirTmp;
+						this.lista.add(new Hueco(espacio.getStart_dir(), tam,
+								espacio.isLibre()));
+						
 						espacio.setTam(tam2);
-						espacio.setDir_com(dirPilaTmp);
+						espacio.setStart_dir(dirTmp);
 						espacio.setLibre(true);
 
-						dirPilaTmp += tam2;
+						dirTmp += tam2;
 						cantidadTmp -= tam2;
 
-					} else /* Tienen la misma direccion */{
+					} else {
 						espacio.setLibre(true);
-						dirPilaTmp += espacio.getTam();
+						dirTmp += espacio.getTam();
 						cantidadTmp -= espacio.getTam();
 
 					}
 
-				} else if (espacio.loLiberaExacto(dirPilaTmp, cantidadTmp)) {
-					if (espacio.getDir_com() < dirPilaTmp) {
-						// Hay que dividir en dos partes
+				} else if (espacio.start_dir + espacio.tam == dirTmp + cantidadTmp) {
+					if (espacio.getStart_dir() < dirTmp) {
 
-						int tam = dirPilaTmp - espacio.getDir_com();
-						this.lista.add(new Hueco(espacio.getDir_com(), tam, espacio
-								.isLibre()));
+						int tam = dirTmp - espacio.getStart_dir();
+						this.lista.add(new Hueco(espacio.getStart_dir(), tam,
+								espacio.isLibre()));
 
-						int tam2 = (espacio.getDir_com() + espacio.getTam())
-								- dirPilaTmp;
+						int tam2 = (espacio.getStart_dir() + espacio.getTam())
+								- dirTmp;
 						espacio.setTam(tam2);
-						espacio.setDir_com(dirPilaTmp);
+						espacio.setStart_dir(dirTmp);
 						espacio.setLibre(true);
-						
-						dirPilaTmp += tam2;
+
+						dirTmp += tam2;
 						cantidadTmp -= tam2;
 
-					} else /* Tienen la misma direccion <-> caso ideal */{
+					} else {
 						espacio.setLibre(true);
-						dirPilaTmp += espacio.getTam();
+						dirTmp += espacio.getTam();
 						cantidadTmp -= espacio.getTam();
-						
+
 					}
 					break;
 
-				} else /* No lo libera completamente */{
-					// Hay que dividir en tres partes
+				} else {
 
-					int tam1 = dirPilaTmp - espacio.getDir_com();
-					this.lista.add(new Hueco(espacio.getDir_com(), tam1, espacio
-							.isLibre()));
+					int tam1 = dirTmp - espacio.getStart_dir();
+					this.lista.add(new Hueco(espacio.getStart_dir(), tam1,
+							espacio.isLibre()));
 
-					int tam3 = espacio.getDir_com() - dirPilaTmp + cantidadTmp;
-					this.lista.add(new Hueco(dirPilaTmp + cantidadTmp, tam3, espacio
-							.isLibre()));
+					int tam3 = espacio.getStart_dir() - dirTmp + cantidadTmp;
+					this.lista.add(new Hueco(dirTmp + cantidadTmp, tam3,
+							espacio.isLibre()));
 
 					espacio.setLibre(true);
 					espacio.setTam(espacio.getTam() - tam1 - tam3);
-					espacio.setDir_com(espacio.getDir_com() + tam1);
-					
-					dirPilaTmp += espacio.getTam();
+					espacio.setStart_dir(espacio.getStart_dir() + tam1);
+
+					dirTmp += espacio.getTam();
 					cantidadTmp -= espacio.getTam();
 
 					break;
@@ -127,7 +122,6 @@ public class MemoriaDatos extends HashMap<Integer, Valor>{
 			}
 		}
 
-		/* fusiona y simplifica la lista de espacios. */
 		ArrayList<Hueco> espacios = new ArrayList<Hueco>();
 
 		Collections.sort(this.lista, comparator);
@@ -136,7 +130,7 @@ public class MemoriaDatos extends HashMap<Integer, Valor>{
 		while (it.hasNext()) {
 			Hueco espacio = it.next();
 			if (eAnt.isLibre() && espacio.isLibre()) {
-				espacio.setDir_com(eAnt.getDir_com());
+				espacio.setStart_dir(eAnt.getStart_dir());
 				espacio.setTam(espacio.getTam() + eAnt.getTam());
 				espacios.add(eAnt);
 			}
@@ -147,35 +141,32 @@ public class MemoriaDatos extends HashMap<Integer, Valor>{
 			this.lista.remove(espacio);
 		}
 	}
-	
+
 	public int reserva(int reserva) {
-		boolean reservado = false;
-		int tamaño, dir=0;
-		for (Hueco hueco : this.lista){
+		int tamaño, dir = 0;
+		for (Hueco hueco : this.lista) {
 			tamaño = hueco.getTam();
-			dir = hueco.getDir_com();
-			if (tamaño > reserva){
-				this.lista.add(new Hueco(dir, tamaño, false));	
-				hueco.setTam(tamaño-reserva);
-				hueco.setDir_com(dir+reserva);		
-				hueco.setLibre(false);						
-				reservado = true;
-				break;
-			} else if (tamaño == reserva){				
+			dir = hueco.getStart_dir();
+			if (tamaño > reserva) {
+				this.lista.add(new Hueco(dir, tamaño, false));
+				hueco.setTam(tamaño - reserva);
+				hueco.setStart_dir(dir + reserva);
 				hueco.setLibre(false);
-				reservado = true;
+				break;
+			} else if (tamaño == reserva) {
+				hueco.setLibre(false);
 				break;
 			}
 		}
 		return dir;
 	}
-	
-	public class Hueco{
-		private int dir_com, tam;
+
+	public class Hueco {
+		private int start_dir, tam;
 		private boolean libre;
-		
+
 		public Hueco(int dir, int tam, boolean libre) {
-			this.dir_com = dir;
+			this.start_dir = dir;
 			this.libre = libre;
 			this.tam = tam;
 		}
@@ -188,12 +179,12 @@ public class MemoriaDatos extends HashMap<Integer, Valor>{
 			this.libre = libre;
 		}
 
-		public int getDir_com() {
-			return dir_com;
+		public int getStart_dir() {
+			return start_dir;
 		}
 
-		public void setDir_com(int dir_com) {
-			this.dir_com = dir_com;
+		public void setStart_dir(int dir_com) {
+			this.start_dir = dir_com;
 		}
 
 		public int getTam() {
@@ -205,26 +196,13 @@ public class MemoriaDatos extends HashMap<Integer, Valor>{
 		}
 
 		public int compareTo(Hueco hueco) {
-			if (this.dir_com < hueco.dir_com){
+			if (this.start_dir < hueco.start_dir) {
 				return 1;
-			} else if (this.dir_com > hueco.dir_com){
+			} else if (this.start_dir > hueco.start_dir) {
 				return -1;
 			}
 			return 0;
 		}
-
-		public boolean estaEnEsteEspacioDeDirecciones(Integer dir) {
-			return dir_com <= dir && dir_com+tam >= dir;
-		}
-
-		public boolean superaElTamanio(Integer dir, Integer cantidad) {
-			return dir+tam<dir+cantidad;
-		}
-		
-		public boolean loLiberaExacto(Integer dir, Integer cantidad) {
-			return dir_com+tam==dir+cantidad;
-		}
-		
 	}
-	
+
 }

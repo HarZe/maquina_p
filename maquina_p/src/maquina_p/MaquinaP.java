@@ -54,9 +54,6 @@ public class MaquinaP {
 			cp = n;
 		}
 		
-		public void incr(int n){
-			cp +=n;
-		}
 		
 		public void incr() {
 			++cp;
