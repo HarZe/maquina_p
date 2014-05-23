@@ -26,6 +26,7 @@ public class Distinto implements Instruccion {
 		}
 		else if (op1 instanceof Entero && op2 instanceof Entero) {
 			st.push(new Booleano(((int) op1.getValor()) != ((int) op2.getValor())));
+
 			cp.incr();
 		}
 		else

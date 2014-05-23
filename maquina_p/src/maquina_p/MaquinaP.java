@@ -16,7 +16,7 @@ public class MaquinaP {
 	protected Cp cp;
 	
 	public MaquinaP(ArrayList<Instruccion> programa) {
-		this.md = new MemoriaDatos(65535);
+		this.md = new MemoriaDatos();
 		this.mp = programa;
 		this.pila = new Stack<Valor>();
 		cp = new Cp();
@@ -54,8 +54,12 @@ public class MaquinaP {
 			cp = n;
 		}
 		
+		public void incr(int n){
+			cp +=n;
+		}
+		
 		public void incr() {
-			cp++;
+			++cp;
 		}
 	}
 }

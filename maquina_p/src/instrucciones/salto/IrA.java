@@ -18,7 +18,7 @@ public class IrA implements Instruccion {
 
 	@Override
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp)
-			throws Exception {
+			throws Exception {		
 		cp.set((int) pd.getValor());
 	}
 

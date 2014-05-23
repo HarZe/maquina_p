@@ -1,12 +1,12 @@
-// Ini puntero cima
+// Inicicialización del puntero cima. Son necesarias 3 posiciones para los displays (3 niveles de anidamiento), y 11 para datos globales y el puntero al arbol.
 apila(14)
 desapila_dir(0)
 
-// Salto 1Âº instr del prog
+// Salto a la 1ª instruccción del programa
 ir_a(683)
 
-// Trad de LeeValor(int & valor) delta=3, N=2
-// PrÃ³logo
+// Traducción de LeeValor(int & valor) delta=3 (tamaño de datos del procedimiento e información de control), N=2 (nivel de anidamiento)
+// Prólogo
 apila_dir(0)
 apila(2)
 suma
@@ -37,7 +37,7 @@ apila(-1)
 igual
 desapila_ind
 
-// EpÃ­logo
+// Epílogo
 apila_dir(0)
 apila(3)
 resta
@@ -53,8 +53,8 @@ suma
 apila_ind
 ir_ind
 
-// Trad de AlmacenaValor() delta=2, N=3
-// PrÃ³logo
+// Traducción de AlmacenaValor() delta=2, N=3
+// Prólogo
 apila_dir(0)
 apila(2)
 suma
@@ -106,7 +106,7 @@ suma
 apila(0)
 desapila_ind
 
-// EpÃ­logo
+// Epílogo
 apila_dir(0)
 apila(2)
 resta
@@ -122,8 +122,8 @@ suma
 apila_ind
 ir_ind
 
-// Trad de GuardaValor(TArbol & arbol) delta=3, N=2
-// PrÃ³logo
+// Traducción de GuardaValor(TArbol & arbol) delta=3, N=2
+// Prólogo
 apila_dir(0)
 apila(2)
 suma
@@ -248,8 +248,8 @@ suma
 apila_ind
 ir_ind
 
-// Trad de LeeValores(TArbol & arbol) delta=5, N=1
-// PrÃ³logo
+// Traducción de LeeValores(TArbol & arbol) delta=5, N=1
+// Prólogo
 apila_dir(0)
 apila(2)
 suma
@@ -335,8 +335,8 @@ suma
 apila_ind
 ir_ind
 
-// Trad de AlmacenaEnSecuencia(TArbol arbol) delta=3, N=2
-// PrÃ³logo
+// Traducción de AlmacenaEnSecuencia(TArbol arbol) delta=3, N=2
+// Prólogo
 apila_dir(0)
 apila(2)
 suma
@@ -457,8 +457,8 @@ suma
 apila_ind
 ir_ind
 
-// Trad de ConstruyeSecOrdenada(TArbol arbol) delta=4, N=1
-// PrÃ³logo
+// Traducción de ConstruyeSecOrdenada(TArbol arbol) delta=4, N=1
+// Prólogo
 apila_dir(0)
 apila(2)
 suma
@@ -528,8 +528,8 @@ suma
 apila_ind
 ir_ind
 
-// Trad de Libera(TArbol arbol) delta=3, N=2
-// PrÃ³logo
+// Traducción de Libera(TArbol arbol) delta=3, N=2
+// Prólogo
 apila_dir(0)
 apila(2)
 suma
@@ -598,7 +598,7 @@ apila_ind
 libera(3)
 ir_a(522)
 
-// EpÃ­logo
+// Epílogo
 apila_dir(0)
 apila(3)
 resta
@@ -614,8 +614,8 @@ suma
 apila_ind
 ir_ind
 
-// Trad de LiberaArbol(TArbol & arbol) delta=3, N=1
-// PrÃ³logo
+// Traducción de LiberaArbol(TArbol & arbol) delta=3, N=1
+// Prólogo
 apila_dir(0)
 apila(2)
 suma
@@ -653,7 +653,7 @@ apila_ind
 apila(0)
 desapila_ind
 
-// EpÃ­logo
+// Epílogo
 apila_dir(0)
 apila(3)
 resta
@@ -669,8 +669,8 @@ suma
 apila_ind
 ir_ind
 
-// Trad de MuestraSecuencia(TSecuencia secuencia) delta=14, N=1
-// PrÃ³logo
+// Traducción de MuestraSecuencia(TSecuencia secuencia) delta=14, N=1
+// Prólogo
 apila_dir(0)
 apila(2)
 suma
@@ -767,7 +767,7 @@ ir_a(668)
 
 ir_a(610)
 
-// EpÃ­logo
+// Epílogo
 apila_dir(0)
 apila(14)
 resta
@@ -784,7 +784,7 @@ apila_ind
 ir_ind
 
 
-// Inicio programa
+// Inicio del programa principal
 // Prellamada LeeValores(arbol)
 apila_dir(0)
 apila(3)

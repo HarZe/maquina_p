@@ -18,12 +18,13 @@ public class IrInd implements Instruccion {
 	@Override
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp)
 			throws Exception {
-		if (st.size() == 0)
+		if (st.isEmpty())
 			throw new Exception("IR_IND: pila vacia");
 		
 		Valor op = st.pop();
-		if (op instanceof Entero)
+		if (op instanceof Entero){
 			cp.set((int) op.getValor());
+		}
 		else
 			throw new Exception("IR_IND: operando no entero");
 	}

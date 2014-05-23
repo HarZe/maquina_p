@@ -23,7 +23,7 @@ public class Apila_Dir implements Instruccion {
 		
 		if (v == null)
 			v = new Entero(0);
-		
+				
 		st.push(v);
 		cp.incr();
 	}

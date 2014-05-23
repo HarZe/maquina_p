@@ -26,7 +26,7 @@ public class Clonar implements Instruccion {
 		Valor orig = st.pop();
 		
 		if (dest instanceof Entero && orig instanceof Entero) {
-			md.clonar((int) orig.getValor(), (int) dest.getValor(), (int) tam.getValor());
+			md.clonar((int) dest.getValor(), (int) orig.getValor(), (int) tam.getValor());
 			cp.incr();
 		}
 		else

@@ -24,7 +24,10 @@ public class Desapila_Ind implements Instruccion {
 		Valor d = st.pop();
 		
 		if (d instanceof Entero) {
-			md.set((int) d.getValor(), v);
+			if(v==null){
+				v=new Entero(0);
+			}
+			md.put((int) d.getValor(), v);
 			cp.incr();
 		}
 		else

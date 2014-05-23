@@ -22,7 +22,6 @@ public class Lee implements Instruccion {
 	@Override
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp) throws Exception {
 		String valor = sc.nextLine();
-		
 		try {
 			int v = Integer.parseInt(valor);
 			st.push(new Entero(v));

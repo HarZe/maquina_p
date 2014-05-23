@@ -19,10 +19,10 @@ public class Desapila_Dir implements Instruccion {
 	
 	@Override
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp) throws Exception {
-		if (st.size() == 0)
+		if (st.isEmpty())
 			throw new Exception("DESAPILAR_DIR(" + dir.toString() + "): pila vacia");
 
-		md.set((int) dir.getValor(), st.pop());
+		md.put((int) dir.getValor(), st.pop());
 		cp.incr();
 	}
 

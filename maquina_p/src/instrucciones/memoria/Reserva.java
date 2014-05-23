@@ -19,6 +19,7 @@ public class Reserva implements Instruccion {
 	@Override
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp)
 			throws Exception {
+		
 		st.push(new Entero(md.reserva((int) tam.getValor())));
 		cp.incr();
 	}

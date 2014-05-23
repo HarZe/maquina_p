@@ -20,7 +20,7 @@ public class Division implements Instruccion {
 		Valor op1 = st.pop();
 		Valor op2 = st.pop();
 		if (op1 instanceof Entero && op2 instanceof Entero) {
-			st.push(new Entero(((int) op2.getValor()) / ((int) op1.getValor())));
+			st.push(new Entero(((int) op1.getValor()) / ((int) op2.getValor())));
 			cp.incr();
 		}
 		else

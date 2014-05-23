@@ -20,7 +20,7 @@ public class IrV implements Instruccion {
 	@Override
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp)
 			throws Exception {
-		if (st.size() == 0)
+		if (st.isEmpty())
 			throw new Exception("IR_V: pila vacia");
 		
 		Valor op = st.pop();

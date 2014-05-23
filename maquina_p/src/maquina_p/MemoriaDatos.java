@@ -1,228 +1,230 @@
 package maquina_p;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
+import valores.Entero;
 import valores.Valor;
 
-public class MemoriaDatos {
+public class MemoriaDatos extends HashMap<Integer, Valor>{
 
-	protected Valor[] memoria;
-	protected int elems;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3932189872155024135L;
 	
-	protected SortedList<Hueco> huecos;
-	
-	public MemoriaDatos(int heap) {
-		elems = 2*heap;
-		memoria = new Valor[elems];
-		for (int i = 0; i < elems; i++)
-			memoria[i] = null;
-		huecos = new SortedList<Hueco>();
-		huecos.add(new Hueco(heap, heap));
-	}
-	
-	public Valor get(int p) {
-		return memoria[p];
-	}
-	
-	public void set(int p, Valor v) {
-		if (p - 1 > elems)
-			ampliar(p);
-		
-		Hueco izda = huecoPos(p, 1);
-		Hueco dcha = parteHueco(izda, p, 1);
-		
-		if (izda.tam == 0)
-			huecos.remove(izda);
-		if (dcha != null && dcha.tam > 0)
-			huecos.add(dcha);
-		
-		memoria[p] = v;
-	}
-	
-	public String toString() {
-		String s = "";
-		
-		for (int i = 0; i < elems; i++) {
-			Valor v = memoria[i];
-			if (v != null)
-				s += i + ": " + v.toString() + "\n";
+	private final Comparator<Hueco> comparator = new Comparator<Hueco>() {
+		@Override
+		public int compare(Hueco e1, Hueco e2) {
+			return e1.compareTo(e2);
 		}
-		
-		return s;
-	}
+	};
 	
-	public int reserva(int tam) {
-		int nHuecos = huecos.size();
-		
-		for (Hueco h : huecos)
-			if (h.tam >= tam) { 
-				int pos = h.pos;
-				
-				h.pos += tam;	// Se avanza la posicion tanto como se haya reservado
-				h.tam -= tam;	// Se reduce el tamaÃ±o tanto como se haya reservado
-				
-				return pos; // Se devuelve la posicion del primer hueco valido
+	private static final int INICIO = 1024;
+	private static final int TAM = 2048;
+	
+	public List<Hueco> lista = new LinkedList<Hueco>();
+	
+	public MemoriaDatos(){
+		super();
+		lista.add(new Hueco(INICIO, TAM, true));
+	}
+
+	public void clonar(int destino, int origen, int tamaño){
+		int len=tamaño+destino;
+		while (destino<len){
+			Valor v = this.get(destino);
+			if(v == null){
+				v = new Entero(0);
 			}
-		
-		ampliar(elems + tam); // Si no habia hueco en toda la memoria, se amplia la memoria en "tam"
-		Hueco ultimo = huecos.get(nHuecos - 1);	// Se usa el ultimo hueco donde seguro que cabe, y se opera como en el bucle
-		ultimo.pos += tam;
-		ultimo.tam -= tam;
-		return ultimo.pos;
+			this.put(origen, v);
+			destino++;
+			origen++;
+		}
 	}
 	
-	public void libera(int pos, int tam) throws Exception {
-		int nHuecos = huecos.size();
-		
-		// Si no hay huecos antes de la zona a liberar
-		if (huecos.get(0).pos > pos) {
-			for (int i = pos; i < pos + tam; i++)
-				memoria[i] = null;
-			huecos.add(new Hueco(pos, tam));
-		}
-		
-		// Cuando se situa entre 2 huecos
-		Hueco izda = null;
-		Hueco dcha = null;
-		for (int i = 0; i < nHuecos - 2; i++)
-			if (pos > huecos.get(i+1).pos && pos < huecos.get(i).pos) {
-				izda = huecos.get(i);
-				dcha = huecos.get(i+1);
+	public void libera(int posicion, int tamaño){
+		int dirPilaTmp = posicion;
+		int cantidadTmp = tamaño;
+		Collections.sort(this.lista, comparator);
+
+		for (Hueco espacio : this.lista) {
+			if (espacio.estaEnEsteEspacioDeDirecciones(dirPilaTmp)) {
+				if (espacio.superaElTamanio(dirPilaTmp, cantidadTmp)) {
+					if (espacio.getDir_com() < dirPilaTmp) {
+						// Hay que dividir en dos partes
+
+						int tam = dirPilaTmp - espacio.getDir_com();
+						this.lista.add(new Hueco(espacio.getDir_com(), tam, espacio
+								.isLibre()));
+
+						int tam2 = (espacio.getDir_com() + espacio.getTam())
+								- dirPilaTmp;
+						espacio.setTam(tam2);
+						espacio.setDir_com(dirPilaTmp);
+						espacio.setLibre(true);
+
+						dirPilaTmp += tam2;
+						cantidadTmp -= tam2;
+
+					} else /* Tienen la misma direccion */{
+						espacio.setLibre(true);
+						dirPilaTmp += espacio.getTam();
+						cantidadTmp -= espacio.getTam();
+
+					}
+
+				} else if (espacio.loLiberaExacto(dirPilaTmp, cantidadTmp)) {
+					if (espacio.getDir_com() < dirPilaTmp) {
+						// Hay que dividir en dos partes
+
+						int tam = dirPilaTmp - espacio.getDir_com();
+						this.lista.add(new Hueco(espacio.getDir_com(), tam, espacio
+								.isLibre()));
+
+						int tam2 = (espacio.getDir_com() + espacio.getTam())
+								- dirPilaTmp;
+						espacio.setTam(tam2);
+						espacio.setDir_com(dirPilaTmp);
+						espacio.setLibre(true);
+						
+						dirPilaTmp += tam2;
+						cantidadTmp -= tam2;
+
+					} else /* Tienen la misma direccion <-> caso ideal */{
+						espacio.setLibre(true);
+						dirPilaTmp += espacio.getTam();
+						cantidadTmp -= espacio.getTam();
+						
+					}
+					break;
+
+				} else /* No lo libera completamente */{
+					// Hay que dividir en tres partes
+
+					int tam1 = dirPilaTmp - espacio.getDir_com();
+					this.lista.add(new Hueco(espacio.getDir_com(), tam1, espacio
+							.isLibre()));
+
+					int tam3 = espacio.getDir_com() - dirPilaTmp + cantidadTmp;
+					this.lista.add(new Hueco(dirPilaTmp + cantidadTmp, tam3, espacio
+							.isLibre()));
+
+					espacio.setLibre(true);
+					espacio.setTam(espacio.getTam() - tam1 - tam3);
+					espacio.setDir_com(espacio.getDir_com() + tam1);
+					
+					dirPilaTmp += espacio.getTam();
+					cantidadTmp -= espacio.getTam();
+
+					break;
+				}
 			}
-		
-		if (izda == null && dcha == null)
-			throw new Exception("LIBERA: no se encontro espacio a liberar");
-		
-		int finIzda = izda.pos + izda.tam;
-		int finDcha = dcha.pos + dcha.tam;
-		
-		// Si el hueco se une al de la izquierda
-		if (finIzda == pos)
-			izda.tam += tam;
-		
-		// Si el hueco se une al de la derecha
-		else if (pos + tam == dcha.pos) {
-			dcha.pos -= tam;
-			dcha.pos += tam;
 		}
-		
-		// Si el hueco es interno, se crea y agrega
-		else if (pos >= finIzda && pos + tam <= dcha.pos)
-			huecos.add(new Hueco(pos, tam));
-		
-		else
-			throw new Exception("LIBERA: la zona de memoria indicada contiene espacio ya libre");
-		
-		// Libera el espacio poniendo null
-		for (int i = pos; i < pos + tam; i++)
-			memoria[i] = null;
+
+		/* fusiona y simplifica la lista de espacios. */
+		ArrayList<Hueco> espacios = new ArrayList<Hueco>();
+
+		Collections.sort(this.lista, comparator);
+		Iterator<Hueco> it = this.lista.iterator();
+		Hueco eAnt = it.next();
+		while (it.hasNext()) {
+			Hueco espacio = it.next();
+			if (eAnt.isLibre() && espacio.isLibre()) {
+				espacio.setDir_com(eAnt.getDir_com());
+				espacio.setTam(espacio.getTam() + eAnt.getTam());
+				espacios.add(eAnt);
+			}
+			eAnt = espacio;
+		}
+
+		for (Hueco espacio : espacios) {
+			this.lista.remove(espacio);
+		}
 	}
 	
-	public void clonar(int origen, int destino, int tam) throws Exception {
-		if (Math.abs(destino - origen) < tam)
-			throw new Exception("CLONA: las zonas de memoria se solapan");
-		
-		for (int i = 0; i < tam; i++)
-			memoria[destino + i] = memoria[origen + i];
+	public int reserva(int reserva) {
+		boolean reservado = false;
+		int tamaño, dir=0;
+		for (Hueco hueco : this.lista){
+			tamaño = hueco.getTam();
+			dir = hueco.getDir_com();
+			if (tamaño > reserva){
+				this.lista.add(new Hueco(dir, tamaño, false));	
+				hueco.setTam(tamaño-reserva);
+				hueco.setDir_com(dir+reserva);		
+				hueco.setLibre(false);						
+				reservado = true;
+				break;
+			} else if (tamaño == reserva){				
+				hueco.setLibre(false);
+				reservado = true;
+				break;
+			}
+		}
+		return dir;
 	}
 	
-	protected Hueco huecoPos(int pos, int tam) {
-		int nHuecos = huecos.size();
+	public class Hueco{
+		private int dir_com, tam;
+		private boolean libre;
 		
-		// Se devuelve el primer hueco valido encontrado para esa posicion
-		for (int i = 1; i < nHuecos - 1; i++)
-			if (pos < huecos.get(i).pos && huecos.get(i - 1).tam >= tam)
-				return huecos.get(i - 1);
-		
-		// Si ninguno sirvio, se da el ultimo
-		return huecos.get(nHuecos - 1);
-	}
-	
-	// Parte un hueco reservando dentro un espacio tam
-	// El atributo es la parte izquierda tras el corte
-	// El hueco devuelto es la nueva parte creada a la derecha
-	// Ambos huecos pueden tener tamaÃ±o 0 tras ser llamada la funcion
-	protected Hueco parteHueco(Hueco h, int pos, int tam) {
-		int nPos = pos + tam;
-		int finHueco = h.pos + h.tam;
-		
-		if (pos < h.pos || nPos > finHueco)	// Si no cabe, devuelve null
-			return null;
-		
-		h.tam = pos - h.pos;	// El nuevo tamaÃ±o del hueco izquierdo es el sitio entre su posicion y la posicion del corte
-		return new Hueco(nPos, finHueco - nPos);	// El tamaÃ±o del hueco derecho es el sitio entre el fin del corte y el fin del hueco inicial
-	}
-	
-	// Amplia la memoria al doble de la posicion requerida (por eficiencia)
-	protected void ampliar(int t) {
-		if (2*t <= elems)
-			return;
-		
-		Valor[] nuevaMem = new Valor[2*t];
-		for (int i = 0; i < elems; i++)
-			nuevaMem[i] = memoria[i];
-		for (int i = elems; i < 2*t; i++)
-			nuevaMem[i] = null;
-		
-		Hueco ultimo = huecos.get(huecos.size() - 1);
-		ultimo.tam += 2*t - elems;
-		
-		elems = 2*t;
-	}
-	
-	protected class Hueco implements Comparable<Hueco> {
-		public int pos;
-		public int tam;
-		
-		public Hueco(int pos, int tam) {
-			this.pos = pos;
+		public Hueco(int dir, int tam, boolean libre) {
+			this.dir_com = dir;
+			this.libre = libre;
 			this.tam = tam;
 		}
 
-		@Override
-		public int compareTo(Hueco o) {
-			return pos - o.pos;
+		public boolean isLibre() {
+			return libre;
 		}
+
+		public void setLibre(boolean libre) {
+			this.libre = libre;
+		}
+
+		public int getDir_com() {
+			return dir_com;
+		}
+
+		public void setDir_com(int dir_com) {
+			this.dir_com = dir_com;
+		}
+
+		public int getTam() {
+			return tam;
+		}
+
+		public void setTam(int tam) {
+			this.tam = tam;
+		}
+
+		public int compareTo(Hueco hueco) {
+			if (this.dir_com < hueco.dir_com){
+				return 1;
+			} else if (this.dir_com > hueco.dir_com){
+				return -1;
+			}
+			return 0;
+		}
+
+		public boolean estaEnEsteEspacioDeDirecciones(Integer dir) {
+			return dir_com <= dir && dir_com+tam >= dir;
+		}
+
+		public boolean superaElTamanio(Integer dir, Integer cantidad) {
+			return dir+tam<dir+cantidad;
+		}
+		
+		public boolean loLiberaExacto(Integer dir, Integer cantidad) {
+			return dir_com+tam==dir+cantidad;
+		}
+		
 	}
 	
-	public class SortedList<E> extends AbstractList<E> {
-
-	    private ArrayList<E> list = new ArrayList<E>();
-	    
-	    @Override 
-	    public void add(int position, E e) {
-	        list.add(e);
-	        Collections.sort(list, null);
-	    }
-
-	    @Override
-	    public E get(int i) {
-	        return list.get(i);
-	    }
-
-	    @Override
-	    public int size() {
-	        return list.size();
-	    }
-	    
-	    @Override
-	    public int indexOf(Object o) {
-	    	return list.lastIndexOf(o);
-	    }
-	    
-	    @Override
-	    public E remove(int i) {
-	    	return list.remove(i);
-	    }
-	    
-	    @Override
-	    public boolean remove(Object o) {
-	    	if (remove(indexOf(o)) != null)
-	    		return true;
-	    	return false;
-	    }
-
-	}
 }

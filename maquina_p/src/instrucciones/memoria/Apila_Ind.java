@@ -18,7 +18,7 @@ public class Apila_Ind implements Instruccion {
 	@Override
 	public void ejecutar(Stack<Valor> st, MemoriaDatos md, Cp cp)
 			throws Exception {
-		if (st.size() == 0)
+		if (st.isEmpty())
 			throw new Exception("APILA_IND: pila vacia");
 		
 		Valor op = st.pop();
@@ -27,7 +27,7 @@ public class Apila_Ind implements Instruccion {
 			
 			if (v == null)
 				v = new Entero(0);
-			
+						
 			st.push(v);
 			cp.incr();
 		}
