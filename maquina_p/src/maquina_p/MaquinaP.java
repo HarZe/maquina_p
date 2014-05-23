@@ -30,11 +30,11 @@ public class MaquinaP {
 			}
 		}
 		catch (Exception e) {
-			System.out.println("MD=\n" + md.toString());
-			System.out.println("CP=" + cp.get());
-			System.out.println("PILA=" + pila.toString());
 			e.printStackTrace();
 		}
+		System.out.println("MD=\n" + md.toString());
+		System.out.println("CP=" + cp.get());
+		System.out.println("PILA=" + pila.toString());
 	}
 	
 	public class Cp {
