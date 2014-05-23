@@ -32,6 +32,7 @@ public class MaquinaP {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("Estado de la maquina P:");
 		System.out.println("MD=\n" + md.toString());
 		System.out.println("CP=" + cp.get());
 		System.out.println("PILA=" + pila.toString());

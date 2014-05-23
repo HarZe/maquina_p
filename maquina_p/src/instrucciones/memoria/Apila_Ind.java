@@ -25,11 +25,8 @@ public class Apila_Ind implements Instruccion {
 		if (op instanceof Entero) {
 			Valor v = md.get((int) op.getValor());
 			
-			if (v == null) {
-				//throw new Exception("APILA_IND: valor invalido de memoria, dir: " + dir.getValor());
-				System.err.println("APILA_IND: valor invalido de memoria, dir: " + op.getValor());
+			if (v == null)
 				v = new Entero(0);
-			}
 			
 			st.push(v);
 			cp.incr();
